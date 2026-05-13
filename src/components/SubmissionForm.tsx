@@ -31,6 +31,7 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
       type: file.type,
       size: file.size,
       url: URL.createObjectURL(file), // Local URL for preview
+      file: file // Store File object for base64 conversion
     }));
     setAttachments([...attachments, ...newAttachments]);
   };

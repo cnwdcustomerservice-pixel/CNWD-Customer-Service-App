@@ -53,12 +53,32 @@ export default function CustomerService() {
     }).catch(() => {});
   };
 
+  const toBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = reject;
+    });
+  };
+
   const handleSubmit = async (formData: any) => {
     setIsSubmitting(true);
     const refNumber = generateRefNumber();
     const fullData = { ...formData, reference_number: refNumber };
 
     try {
+      let base64Attachment = '';
+      if (formData.attachments && formData.attachments.length > 0) {
+        const file = formData.attachments[0].file;
+        if (file.size > 50 * 1024) { // 50KB limit
+            alert('File is too large. Please upload a smaller image (under 50KB).');
+            setIsSubmitting(false);
+            return;
+        }
+        base64Attachment = await toBase64(file);
+      }
+
       await base44.entities.ServiceRequest.create(fullData);
       addSubmission(fullData);
 
@@ -67,16 +87,15 @@ export default function CustomerService() {
         'service_zt99k86',
         'template_x5lbbse',
         {
-          message: 'A new service request has been submitted. Please review the customer details below.',
-          full_name: formData.full_name,
-          contact_number: formData.contact_number,
-          complete_address: formData.complete_address,
-          landmark: formData.landmark,
-          account_number: formData.account_number,
-          account_name: formData.account_name, // Map requested
-          email: formData.email,
-          concerns: formData.concerns,
-          attachment: formData.attachments ? formData.attachments.map((f: any) => f.name).join(', ') : 'None'
+          'Full Name': formData.full_name,
+          'Account Number': formData.account_number,
+          'Contact Number': formData.contact_number,
+          'Complete Address': formData.complete_address,
+          'Landmark': formData.landmark,
+          'Account Name': formData.account_name,
+          'Email Address': formData.email,
+          'Concern / Complaints': formData.concerns,
+          'Attachment': base64Attachment
         },
         'eXHjtXKoc-BghRRzG'
       );
