@@ -28,11 +28,11 @@ export default function CustomerService() {
     };
   }, []);
 
-  const generateRefNumber = () => {
-    const date = new Date();
-    const dateStr = `${date.getFullYear()}${String(date.getMonth() + 1).padStart(2, '0')}${String(date.getDate()).padStart(2, '0')}`;
-    const random = Math.floor(1000 + Math.random() * 9000);
-    return `CNWD-${dateStr}-${random}`;
+  const generateRefNumber = async () => {
+    const submissions = await base44.entities.ServiceRequest.list();
+    const count = (submissions?.length || 0) + 1;
+    const countStr = count.toString().padStart(4, '0');
+    return `2026-13-05-${countStr}`;
   };
 
   const sendSMS = (phoneNumber: string, message: string) => {
@@ -64,7 +64,7 @@ export default function CustomerService() {
 
   const handleSubmit = async (formData: any) => {
     setIsSubmitting(true);
-    const refNumber = generateRefNumber();
+    const refNumber = await generateRefNumber();
     const fullData = { ...formData, reference_number: refNumber };
 
     try {
@@ -87,6 +87,7 @@ export default function CustomerService() {
         'service_zt99k86',
         'template_x5lbbse',
         {
+          'Reference Number': refNumber,
           'Full Name': formData.full_name,
           'Account Number': formData.account_number,
           'Contact Number': formData.contact_number,
