@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import emailjs from 'emailjs-com';
 import { base44 } from '@/api/base44Client';
 import { useSubmissions } from '../context/SubmissionsContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -61,6 +62,27 @@ export default function CustomerService() {
       await base44.entities.ServiceRequest.create(fullData);
       addSubmission(fullData);
 
+      // EmailJS logic
+      await emailjs.send(
+        'service_zt99k86',
+        'template_x5lbbse',
+        {
+          message: 'A new service request has been submitted. Please review the customer details below.',
+          full_name: formData.full_name,
+          contact_number: formData.contact_number,
+          complete_address: formData.complete_address,
+          landmark: formData.landmark,
+          account_number: formData.account_number,
+          account_name: formData.account_name, // Map requested
+          email: formData.email,
+          concerns: formData.concerns,
+          attachment: formData.attachments ? formData.attachments.map((f: any) => f.name).join(', ') : 'None'
+        },
+        'eXHjtXKoc-BghRRzG'
+      );
+
+      alert('Your details are successfully submitted to customer service, for more information contact the customer service');
+
       setSubmittedData(fullData);
       setShowConfirmation(true);
       
@@ -69,52 +91,6 @@ export default function CustomerService() {
         formData.contact_number,
         `CNWD: Your request ${refNumber} has been recorded. We will review it shortly. Thank you.`
       );
-
-      try {
-        await base44.integrations.Core.SendEmail({
-          to: 'cnwdcustomerservice@gmail.com',
-          subject: `New Customer Service Request - ${refNumber}`,
-          body: `
-            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
-              <div style="background-color: #00c203; padding: 20px; color: white; text-align: center;">
-                <h1 style="margin: 0;">Camarines Norte Water District</h1>
-                <p style="margin: 5px 0 0 0; opacity: 0.9;">Customer Service Support Portal</p>
-              </div>
-              <div style="padding: 20px;">
-                <h2 style="color: #333;">New Service Request Received</h2>
-                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
-                    <p style="margin: 5px 0;"><strong>Reference Number:</strong> ${refNumber}</p>
-                </div>
-                <p><strong>Customer Details:</strong></p>
-                <p>Name: ${formData.full_name}<br />
-                Address: ${formData.complete_address}<br />
-                Landmark: ${formData.landmark || 'N/A'}<br />
-                Account: ${formData.account_number || 'N/A'}<br />
-                Account Name: ${formData.account_name || 'N/A'}</p>
-                <p><strong>Contact Information:</strong></p>
-                <p>Phone: ${formData.contact_number}<br />
-                Email: ${formData.email}</p>
-                <p><strong>Concerns / Complaints:</strong></p>
-                <p style="background: #fff4f4; padding: 10px; border-left: 4px solid #cc0000; color: #333;">${formData.concerns}</p>
-              </div>
-            </div>
-          `
-        });
-        console.log("Email to Customer Service sent successfully.");
-      } catch (emailErr) {
-        console.error('Failed to send email to Customer Service', emailErr);
-      }
-
-      try {
-        await base44.integrations.Core.SendEmail({
-          to: formData.email,
-          subject: `Submission Confirmation - ${refNumber}`,
-          body: `Your details have been successfully submitted to Customer Service. Please wait for our response.`
-        });
-        console.log("Confirmation email to customer sent successfully.");
-      } catch (emailErr) {
-        console.error('Failed to send email to Customer', emailErr);
-      }
 
     } catch (err) {
       console.error('Submission failed', err);

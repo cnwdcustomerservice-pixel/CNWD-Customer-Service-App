@@ -97,9 +97,10 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
-          <Label htmlFor="account_number">Account Number (Optional)</Label>
+          <Label htmlFor="account_number">Account Number</Label>
           <Input
             id="account_number"
+            required
             value={formData.account_number}
             onChange={e => setFormData({ ...formData, account_number: e.target.value })}
             placeholder="XXXX-XXXXX"
@@ -107,9 +108,10 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
           />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="account_name">Account Name (Optional)</Label>
+          <Label htmlFor="account_name">Account Name</Label>
           <Input
             id="account_name"
+            required
             value={formData.account_name}
             onChange={e => setFormData({ ...formData, account_name: e.target.value })}
             placeholder="Full Name on Account"
