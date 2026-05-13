@@ -23,7 +23,7 @@ export default function ConfirmationDialog({ open, onClose }: ConfirmationDialog
             <CheckCircle2 className="w-12 h-12 text-[#00c203]" />
           </div>
           <h2 className="text-2xl font-black text-white tracking-tight mb-2">Thank you!</h2>
-          <p className="text-white/80 text-sm font-medium">Your details have been successfully submitted.</p>
+          <p className="text-white/80 text-sm font-medium">Your details is successfully submitted to customer service, for more information contact the customer service</p>
         </div>
         <div className="p-8 bg-card flex flex-col items-center space-y-4">
           <p className="text-center text-muted-foreground text-sm leading-relaxed">

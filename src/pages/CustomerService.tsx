@@ -70,29 +70,39 @@ export default function CustomerService() {
         `CNWD: Your request ${refNumber} has been recorded. We will review it shortly. Thank you.`
       );
 
-      base44.integrations.Core.SendEmail({
-        to: 'cnwdcustomerservice@gmail.com',
-        subject: `New Customer Service Request - ${refNumber}`,
-        body: `
-          <h1>New Service Request Received</h1>
-          <p><strong>Reference Number:</strong> ${refNumber}</p>
-          <hr />
-          <p><strong>Customer Name:</strong> ${formData.full_name}</p>
-          <p><strong>Address:</strong> ${formData.complete_address}</p>
-          <p><strong>Contact Number:</strong> ${formData.contact_number}</p>
-          <p><strong>Account Number:</strong> ${formData.account_number || 'N/A'}</p>
-          <p><strong>Email Address:</strong> ${formData.email}</p>
-          <hr />
-          <p><strong>Concerns / Complaints:</strong></p>
-          <p>${formData.concerns}</p>
-        `
-      }).catch(() => {});
+      try {
+        await base44.integrations.Core.SendEmail({
+          to: 'cnwdcustomerservice@gmail.com',
+          subject: `New Customer Service Request - ${refNumber}`,
+          body: `
+            <h1>New Service Request Received</h1>
+            <p><strong>Reference Number:</strong> ${refNumber}</p>
+            <hr />
+            <p><strong>Customer Name:</strong> ${formData.full_name}</p>
+            <p><strong>Address:</strong> ${formData.complete_address}</p>
+            <p><strong>Contact Number:</strong> ${formData.contact_number}</p>
+            <p><strong>Account Number:</strong> ${formData.account_number || 'N/A'}</p>
+            <p><strong>Email Address:</strong> ${formData.email}</p>
+            <hr />
+            <p><strong>Concerns / Complaints:</strong></p>
+            <p>${formData.concerns}</p>
+          `
+        });
+        console.log("Email to Customer Service sent successfully.");
+      } catch (emailErr) {
+        console.error('Failed to send email to Customer Service', emailErr);
+      }
 
-      base44.integrations.Core.SendEmail({
-        to: formData.email,
-        subject: `Submission Confirmation - ${refNumber}`,
-        body: `Your details have been successfully submitted to Customer Service. Please wait for our response.`
-      }).catch(() => {});
+      try {
+        await base44.integrations.Core.SendEmail({
+          to: formData.email,
+          subject: `Submission Confirmation - ${refNumber}`,
+          body: `Your details have been successfully submitted to Customer Service. Please wait for our response.`
+        });
+        console.log("Confirmation email to customer sent successfully.");
+      } catch (emailErr) {
+        console.error('Failed to send email to Customer', emailErr);
+      }
 
     } catch (err) {
       console.error('Submission failed', err);
