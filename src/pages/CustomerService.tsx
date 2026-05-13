@@ -88,7 +88,9 @@ export default function CustomerService() {
                 <p><strong>Customer Details:</strong></p>
                 <p>Name: ${formData.full_name}<br />
                 Address: ${formData.complete_address}<br />
-                Account: ${formData.account_number || 'N/A'}</p>
+                Landmark: ${formData.landmark || 'N/A'}<br />
+                Account: ${formData.account_number || 'N/A'}<br />
+                Account Name: ${formData.account_name || 'N/A'}</p>
                 <p><strong>Contact Information:</strong></p>
                 <p>Phone: ${formData.contact_number}<br />
                 Email: ${formData.email}</p>
