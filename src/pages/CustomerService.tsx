@@ -75,17 +75,27 @@ export default function CustomerService() {
           to: 'cnwdcustomerservice@gmail.com',
           subject: `New Customer Service Request - ${refNumber}`,
           body: `
-            <h1>New Service Request Received</h1>
-            <p><strong>Reference Number:</strong> ${refNumber}</p>
-            <hr />
-            <p><strong>Customer Name:</strong> ${formData.full_name}</p>
-            <p><strong>Address:</strong> ${formData.complete_address}</p>
-            <p><strong>Contact Number:</strong> ${formData.contact_number}</p>
-            <p><strong>Account Number:</strong> ${formData.account_number || 'N/A'}</p>
-            <p><strong>Email Address:</strong> ${formData.email}</p>
-            <hr />
-            <p><strong>Concerns / Complaints:</strong></p>
-            <p>${formData.concerns}</p>
+            <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #ddd; border-radius: 10px; overflow: hidden;">
+              <div style="background-color: #00c203; padding: 20px; color: white; text-align: center;">
+                <h1 style="margin: 0;">Camarines Norte Water District</h1>
+                <p style="margin: 5px 0 0 0; opacity: 0.9;">Customer Service Support Portal</p>
+              </div>
+              <div style="padding: 20px;">
+                <h2 style="color: #333;">New Service Request Received</h2>
+                <div style="background: #f9f9f9; padding: 15px; border-radius: 5px; margin-bottom: 20px;">
+                    <p style="margin: 5px 0;"><strong>Reference Number:</strong> ${refNumber}</p>
+                </div>
+                <p><strong>Customer Details:</strong></p>
+                <p>Name: ${formData.full_name}<br />
+                Address: ${formData.complete_address}<br />
+                Account: ${formData.account_number || 'N/A'}</p>
+                <p><strong>Contact Information:</strong></p>
+                <p>Phone: ${formData.contact_number}<br />
+                Email: ${formData.email}</p>
+                <p><strong>Concerns / Complaints:</strong></p>
+                <p style="background: #fff4f4; padding: 10px; border-left: 4px solid #cc0000; color: #333;">${formData.concerns}</p>
+              </div>
+            </div>
           `
         });
         console.log("Email to Customer Service sent successfully.");
@@ -138,10 +148,10 @@ export default function CustomerService() {
               />
             </div>
             <div>
-              <h1 className="text-xl font-extrabold tracking-tight leading-tight text-white">
-                Customer Service
+              <h1 className="text-lg font-extrabold tracking-tight leading-tight text-white">
+                Camarines Norte Water District
               </h1>
-              <p className="text-xs mt-0.5 text-white/80">Support Portal</p>
+              <p className="text-xs mt-0.5 text-white/80">Customer Service</p>
             </div>
           </div>
         </div>
