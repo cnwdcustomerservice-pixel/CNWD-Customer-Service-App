@@ -1,0 +1,6 @@
+{
+  "name": "CNWD Water Services",
+  "description": "Official water bill calculator and customer service portal for Camarines Norte Water District (CNWD). Compute your monthly bill and submit service requests or complaints securely.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": []
+}
