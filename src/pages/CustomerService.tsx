@@ -96,7 +96,8 @@ export default function CustomerService() {
           'Account Name': formData.account_name,
           'Email Address': formData.email,
           'Concern / Complaints': formData.concerns,
-          'Attachment': base64Attachment
+          'Attachment': base64Attachment,
+          'to_email': 'cnwdcustomerservice@gmail.com'
         },
         'eXHjtXKoc-BghRRzG'
       );
