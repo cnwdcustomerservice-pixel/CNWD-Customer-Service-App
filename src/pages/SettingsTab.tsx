@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
-  const { soundEnabled, vibrationEnabled, toggleSound, toggleVibration } = useSettings();
+  const { soundEnabled, vibrationEnabled, language, timeFormat, toggleSound, toggleVibration, setLanguage, setTimeFormat, t } = useSettings();
   const [autoFixLogs, setAutoFixLogs] = useState<string[]>([]);
   const handleRunAutoFix = async () => {
     setAutoFixLogs(["Scanning UI components..."]);
@@ -58,6 +58,11 @@ export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: stri
                 onSoundToggle={toggleSound}
                 vibrationEnabled={vibrationEnabled}
                 onVibrationToggle={toggleVibration}
+                language={language}
+                onLanguageChange={setLanguage}
+                timeFormat={timeFormat}
+                onTimeFormatChange={setTimeFormat}
+                t={t}
               />
             </TabsContent>
             <TabsContent value="privacy">

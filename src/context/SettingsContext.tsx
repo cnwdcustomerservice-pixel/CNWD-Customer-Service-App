@@ -1,11 +1,17 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState } from 'react';
+import { translations } from '../lib/i18n';
 
 interface SettingsContextType {
   soundEnabled: boolean;
   vibrationEnabled: boolean;
+  language: string;
+  timeFormat: '12' | '24';
   toggleSound: () => void;
   toggleVibration: () => void;
+  setLanguage: (lang: string) => void;
+  setTimeFormat: (format: '12' | '24') => void;
   playFeedback: () => void;
+  t: (key: string) => string;
 }
 
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
@@ -13,6 +19,12 @@ const SettingsContext = createContext<SettingsContextType | undefined>(undefined
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
+  const [language, setLanguage] = useState('en');
+  const [timeFormat, setTimeFormat] = useState<'12' | '24'>('12');
+
+  const t = (key: string) => {
+    return translations[language][key] || key;
+  };
 
   const toggleSound = () => setSoundEnabled(prev => !prev);
   const toggleVibration = () => setVibrationEnabled(prev => !prev);
@@ -41,7 +53,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <SettingsContext.Provider value={{ soundEnabled, vibrationEnabled, toggleSound, toggleVibration, playFeedback }}>
+    <SettingsContext.Provider value={{ soundEnabled, vibrationEnabled, language, timeFormat, toggleSound, toggleVibration, setLanguage, setTimeFormat, playFeedback, t }}>
       {children}
     </SettingsContext.Provider>
   );
