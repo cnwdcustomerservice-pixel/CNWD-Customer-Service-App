@@ -7,7 +7,7 @@ import ContactUs from './pages/ContactUs';
 import SettingsTab from './pages/SettingsTab';
 import MiniGamesTab from './pages/MiniGamesTab';
 import WaterCatchGame from './pages/WaterCatchGame';
-import InstallPrompt from './components/InstallPrompt';
+import { PwaInstallPrompt } from './components/PwaInstallPrompt';
 import AIChatbox from './pages/AIChatbox';
 import DateTimeDisplay from './components/DateTimeDisplay';
 
@@ -62,7 +62,7 @@ export default function App() {
         {renderTab()}
       </main>
       
-      <InstallPrompt />
+      <PwaInstallPrompt />
       
     </div>
   );
