@@ -121,7 +121,7 @@ export default function ContactUs() {
             <p className="text-xs text-muted-foreground/60 leading-relaxed font-medium">
               © {new Date().getFullYear()} Camarines Norte Water District<br />
               Vinzons Avenue, Barangay Lag-on, Daet, Camarines Norte, Philippines.<br />
-              <span className="mt-2 block uppercase tracking-widest text-[9px] font-bold">Service Excellence since 1975</span>
+              <span className="mt-2 block uppercase tracking-widest text-[9px] font-bold">Service Excellence since 1973</span>
             </p>
           </div>
         </div>

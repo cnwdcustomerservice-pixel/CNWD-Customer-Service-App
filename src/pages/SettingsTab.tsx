@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useDarkMode } from '../context/DarkModeContext';
+import { useSettings } from '../context/SettingsContext';
 import PrivacySection from '@/components/settings/PrivacySection';
 import GeneralTab from '@/components/settings/GeneralTab';
 import CreditsSection from '@/components/settings/CreditsSection';
@@ -9,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: string) => void }) {
   const { isDarkMode, toggleDarkMode } = useDarkMode();
+  const { soundEnabled, vibrationEnabled, toggleSound, toggleVibration } = useSettings();
   const [autoFixLogs, setAutoFixLogs] = useState<string[]>([]);
   const handleRunAutoFix = async () => {
     setAutoFixLogs(["Scanning UI components..."]);
@@ -52,6 +54,10 @@ export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: stri
                 onDarkModeChange={toggleDarkMode} 
                 onAutoFixRun={handleRunAutoFix}
                 autoFixLogs={autoFixLogs}
+                soundEnabled={soundEnabled}
+                onSoundToggle={toggleSound}
+                vibrationEnabled={vibrationEnabled}
+                onVibrationToggle={toggleVibration}
               />
             </TabsContent>
             <TabsContent value="privacy">

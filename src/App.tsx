@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { SettingsProvider } from './context/SettingsContext';
 import { DarkModeProvider } from './context/DarkModeContext';
 import { SubmissionsProvider } from './context/SubmissionsContext';
 import HomePage from './pages/HomePage';
@@ -8,15 +9,22 @@ import ContactUs from './pages/ContactUs';
 import SettingsTab from './pages/SettingsTab';
 import InstallPrompt from './components/InstallPrompt';
 import AIChatbox from './pages/AIChatbox';
+import { SettingsProvider } from './context/SettingsContext';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { playFeedback } = useSettings();
+
+  const handleSetActiveTab = (tab: string) => {
+    playFeedback();
+    setActiveTab(tab);
+  };
 
   const renderTab = () => {
     switch (activeTab) {
       case 'home':
-        return <HomePage setActiveTab={setActiveTab} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />;
+        return <HomePage setActiveTab={handleSetActiveTab} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />;
       case 'calculator':
         return <CalculatorPage />;
       case 'service':
@@ -26,21 +34,22 @@ export default function App() {
       case 'contact':
         return <ContactUs />;
       case 'settings':
-        return <SettingsTab setActiveTab={setActiveTab} />;
+        return <SettingsTab setActiveTab={handleSetActiveTab} />;
       default:
-        return <HomePage setActiveTab={setActiveTab} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />;
+        return <HomePage setActiveTab={handleSetActiveTab} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />;
     }
   };
 
   return (
+    <SettingsProvider>
     <DarkModeProvider>
       <SubmissionsProvider>
         <div className="flex flex-col h-screen bg-background text-foreground transition-colors duration-300 overflow-hidden">
           {activeTab !== 'home' && (
             <header className="h-16 flex items-center px-4 bg-green-600 border-b border-green-700">
               <button 
-                onClick={() => { setActiveTab('home'); setIsMenuOpen(true); }} 
-                className="flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded-full font-semibold hover:bg-green-800 transition-colors shadow-sm"
+                onClick={() => { handleSetActiveTab('home'); setIsMenuOpen(true); }} 
+                className="flex items-center gap-2 px-4 py-2 bg-[#00c203] text-white rounded-full font-semibold hover:bg-[#00a802] transition-colors shadow-sm"
               >
                 <span>←</span>
                 Menu
@@ -56,5 +65,6 @@ export default function App() {
         </div>
       </SubmissionsProvider>
     </DarkModeProvider>
+    </SettingsProvider>
   );
 }

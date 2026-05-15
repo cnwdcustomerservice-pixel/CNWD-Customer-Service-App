@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Building2, Target, Eye, Goal } from "lucide-react";
+import { Target, Eye, Goal } from "lucide-react";
 
 export default function CompanySection() {
   return (
@@ -10,8 +10,8 @@ export default function CompanySection() {
       <Card className="border-0 shadow-sm">
         <CardHeader className="pb-4">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
-              <Building2 className="h-5 w-5 text-primary" />
+            <div className="h-10 w-10 rounded-xl bg-white flex items-center justify-center p-1 border">
+              <img src="/cnwd-logo.png" alt="CNWD Logo" className="h-8 w-8 object-contain" />
             </div>
             <div>
               <CardTitle className="text-lg">Company Information</CardTitle>
