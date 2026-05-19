@@ -40,9 +40,39 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
     setAttachments(attachments.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Helper function to safely read file instances as Base64 strings asynchronously
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = error => reject(error);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ ...formData, attachments });
+    
+    let fileContent = '';
+    let filename = '';
+
+    // Process the first file attachment if the user provided one
+    if (attachments.length > 0) {
+      try {
+        const primaryAttachment = attachments[0];
+        fileContent = await convertFileToBase64(primaryAttachment.file);
+        filename = primaryAttachment.name;
+      } catch (error) {
+        console.error("Base64 file conversion failed: ", error);
+      }
+    }
+
+    // Pass the payload up containing the individual form values along with the attachment properties
+    onSubmit({ 
+      ...formData, 
+      fileContent, 
+      filename 
+    });
   };
 
   return (
@@ -166,10 +196,11 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
               </button>
             </div>
           ))}
+          {/* Prevent uploading multiple items if preferred, or maintain grid selection */}
           <label className="col-span-2 md:col-span-3 lg:col-span-4 border-2 border-dashed border-border rounded-xl cursor-pointer hover:bg-[#00c203]/5 hover:border-[#00c203]/30 transition-all flex flex-col items-center justify-center text-center p-3 h-64 group">
             <Upload className="w-16 h-16 text-muted-foreground group-hover:text-[#00c203] transition-colors mb-3" />
             <span className="text-[16px] font-bold text-muted-foreground group-hover:text-[#00c203]">Add Files</span>
-            <input type="file" multiple className="hidden" onChange={handleFileChange} accept="image/*,audio/*,video/*" />
+            <input type="file" className="hidden" onChange={handleFileChange} accept="image/*,audio/*,video/*" />
           </label>
         </div>
       </div>
@@ -177,7 +208,7 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
       <Button
         type="submit"
         disabled={isSubmitting}
-        className="w-full h-12 bg-[#00c203] hover:bg-[#00a802] text-white font-bold text-lg shadow-lg shadow-[#00c203]/20"
+        className="w-full h-12 bg-[#00c203] hover:bg-[#00a802] text-white font-bold text-lg shadow-lg shadow-[#00c203]/20 cursor-pointer"
       >
         {isSubmitting ? (
           <>
