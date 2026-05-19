@@ -9,7 +9,7 @@ export default function CustomerService() {
     setIsSubmitting(true);
     
     // Your exact Google Apps Script backend URL string
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz2WhjeDMngITMSSOVdY-0o5r-U7FcT4gCSHkfRTZOH6eQj4WcGMSOEG0KH_w7SFlz-/exec";
+    const SCRIPT_URL = "";
 
     try {
       // Map properties matching standard application/x-www-form-urlencoded
