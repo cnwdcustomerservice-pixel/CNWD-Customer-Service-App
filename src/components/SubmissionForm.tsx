@@ -166,9 +166,9 @@ export default function SubmissionForm({ onSubmit, isSubmitting }: SubmissionFor
               </button>
             </div>
           ))}
-          <label className="border-2 border-dashed border-border rounded-xl cursor-pointer hover:bg-[#00c203]/5 hover:border-[#00c203]/30 transition-all flex flex-col items-center justify-center text-center p-3 h-48 group">
-            <Upload className="w-10 h-10 text-muted-foreground group-hover:text-[#00c203] transition-colors mb-3" />
-            <span className="text-[14px] font-bold text-muted-foreground group-hover:text-[#00c203]">Add Files</span>
+          <label className="col-span-2 md:col-span-3 lg:col-span-4 border-2 border-dashed border-border rounded-xl cursor-pointer hover:bg-[#00c203]/5 hover:border-[#00c203]/30 transition-all flex flex-col items-center justify-center text-center p-3 h-64 group">
+            <Upload className="w-16 h-16 text-muted-foreground group-hover:text-[#00c203] transition-colors mb-3" />
+            <span className="text-[16px] font-bold text-muted-foreground group-hover:text-[#00c203]">Add Files</span>
             <input type="file" multiple className="hidden" onChange={handleFileChange} accept="image/*,audio/*,video/*" />
           </label>
         </div>

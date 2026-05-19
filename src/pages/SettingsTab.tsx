@@ -40,12 +40,11 @@ export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: stri
             Back to Home
           </button>
           <Tabs defaultValue="general" className="w-full">
-            <TabsList className="grid w-full grid-cols-5 mb-6">
-              <TabsTrigger value="general">General</TabsTrigger>
-              <TabsTrigger value="privacy">Privacy</TabsTrigger>
-              <TabsTrigger value="company">Company</TabsTrigger>
-              <TabsTrigger value="credits">Credits</TabsTrigger>
-              <TabsTrigger value="copyright">Copyright</TabsTrigger>
+            <TabsList className="flex items-center justify-between w-full mb-6 gap-0.5 h-auto p-0.5 bg-muted">
+              <TabsTrigger value="general" className="text-xs px-1 py-1.5 flex-1">{t('general')}</TabsTrigger>
+              <TabsTrigger value="privacy" className="text-xs px-1 py-1.5 flex-1">{t('privacy')}</TabsTrigger>
+              <TabsTrigger value="company" className="text-xs px-1 py-1.5 flex-1">{t('company')}</TabsTrigger>
+              <TabsTrigger value="credits" className="text-xs px-1 py-1.5 flex-1">{t('credits')}</TabsTrigger>
             </TabsList>
             
             <TabsContent value="general">
@@ -66,16 +65,16 @@ export default function SettingsTab({ setActiveTab }: { setActiveTab: (tab: stri
               />
             </TabsContent>
             <TabsContent value="privacy">
-              <PrivacySection />
+              <PrivacySection t={t} />
             </TabsContent>
             <TabsContent value="company">
               <CompanySection />
             </TabsContent>
             <TabsContent value="credits">
-              <CreditsSection />
-            </TabsContent>
-            <TabsContent value="copyright">
-              <CopyrightSection />
+              <div className="space-y-4">
+                <CreditsSection />
+                <CopyrightSection />
+              </div>
             </TabsContent>
           </Tabs>
         </main>

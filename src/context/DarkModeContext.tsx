@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { useNotifications } from './NotificationContext';
 
 interface DarkModeContextType {
   isDarkMode: boolean;
@@ -8,6 +9,7 @@ interface DarkModeContextType {
 const DarkModeContext = createContext<DarkModeContextType | undefined>(undefined);
 
 export function DarkModeProvider({ children }: { children: React.ReactNode }) {
+  const { addNotification } = useNotifications();
   const [isDarkMode, setIsDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -22,7 +24,11 @@ export function DarkModeProvider({ children }: { children: React.ReactNode }) {
     }
   }, [isDarkMode]);
 
-  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);
+  const toggleDarkMode = () => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    addNotification(newMode ? "Display appearance switched to Dark Mode." : "Display appearance restored to Light Mode.");
+  };
 
   return (
     <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>

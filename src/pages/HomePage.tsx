@@ -1,17 +1,20 @@
 import React from 'react';
 import { useSettings } from '../context/SettingsContext';
+import { useDarkMode } from '../context/DarkModeContext';
 import { 
   Calculator, 
   MessageSquare, 
   Bot, 
   Phone, 
   Settings, 
-  ChevronRight 
+  ChevronRight,
+  Sun,
+  Moon
 } from 'lucide-react';
 
 export default function HomePage({ setActiveTab, isMenuOpen, setIsMenuOpen }: { setActiveTab: (tab: string) => void, isMenuOpen: boolean, setIsMenuOpen: (o: boolean) => void }) {
   const { t } = useSettings();
-
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
   const menuItems = [
     { id: 'calculator', label: t('calculator'), icon: Calculator },
     { id: 'service', label: t('customerService'), icon: MessageSquare },
@@ -21,18 +24,13 @@ export default function HomePage({ setActiveTab, isMenuOpen, setIsMenuOpen }: { 
   ];
 
   return (
-    <div className="flex flex-col items-center justify-between h-full bg-green-50 p-6">
+    <div className={`flex flex-col items-center justify-between h-full p-6 ${isDarkMode ? 'bg-gray-900' : 'bg-green-50'}`}>
       {!isMenuOpen ? (
-        <div className="flex flex-col items-center justify-center flex-1 space-y-8">
+        <div className="flex flex-col items-center justify-center flex-1 space-y-8 w-full">
           <div className="flex flex-col items-center">
-            <h1 className="text-3xl font-extrabold text-green-950 text-center tracking-tighter leading-tight">
+            <h1 className={`text-3xl font-extrabold text-center tracking-tighter leading-tight ${isDarkMode ? 'text-white' : 'text-green-950'}`}>
               CAMARINES NORTE<br />WATER DISTRICT
             </h1>
-          </div>
-          
-          <div className="text-center text-green-800 space-y-2">
-            <p className="font-semibold text-lg">{t('servingSince')}</p>
-            <p className="text-sm opacity-80 max-w-sm">{t('providingReliableWater')}</p>
           </div>
           
           <button
@@ -44,10 +42,19 @@ export default function HomePage({ setActiveTab, isMenuOpen, setIsMenuOpen }: { 
         </div>
       ) : (
         <div className="w-full max-w-md pt-4 flex flex-col flex-1 overflow-hidden">
-          <h2 className="text-2xl font-bold text-green-900 mb-6 text-center">{t('exploreServices')}</h2>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className={`text-2xl font-bold text-center flex-1 ${isDarkMode ? 'text-white' : 'text-green-900'}`}>{t('exploreServices')}</h2>
+            <button
+              onClick={toggleDarkMode}
+              className={`p-2 rounded-full ${isDarkMode ? 'bg-gray-700 text-yellow-300' : 'bg-green-100 text-green-800'}`}
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
+          </div>
+          
           <button
             onClick={() => setIsMenuOpen(false)}
-            className="w-full py-3 mb-6 bg-green-100 text-green-800 rounded-full font-bold text-lg hover:bg-green-200 transition-colors flex items-center justify-center gap-2"
+            className={`w-full py-3 mb-6 rounded-full font-bold text-lg transition-colors flex items-center justify-center gap-2 ${isDarkMode ? 'bg-gray-700 text-white hover:bg-gray-600' : 'bg-green-100 text-green-800 hover:bg-green-200'}`}
           >
             ← {t('backToHome') || 'Back to Home'}
           </button>
@@ -57,15 +64,15 @@ export default function HomePage({ setActiveTab, isMenuOpen, setIsMenuOpen }: { 
               <button
                 key={item.id}
                 onClick={() => setActiveTab(item.id)}
-                className="w-full flex items-center justify-between p-4 bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow"
+                className={`w-full flex items-center justify-between p-4 rounded-2xl shadow-sm hover:shadow-md transition-shadow ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'}`}
               >
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-green-100 text-green-700 rounded-xl">
+                  <div className={`p-3 rounded-xl ${isDarkMode ? 'bg-gray-700 text-green-400' : 'bg-green-100 text-green-700'}`}>
                     <item.icon className="w-6 h-6" />
                   </div>
-                  <span className="font-semibold text-green-900">{item.label}</span>
+                  <span className={`font-semibold ${isDarkMode ? 'text-white' : 'text-green-900'}`}>{item.label}</span>
                 </div>
-                <ChevronRight className="w-5 h-5 text-green-400" />
+                <ChevronRight className={`w-5 h-5 ${isDarkMode ? 'text-gray-400' : 'text-green-400'}`} />
               </button>
             ))}
           </div>

@@ -17,7 +17,7 @@ export default function GeneralTab({ darkMode, onDarkModeChange, onAutoFixRun, a
               <Wrench className="h-5 w-5 text-primary" />
             </div>
             <div>
-              <CardTitle className="text-lg">{t('autoFixApp') || 'Auto-Fix App'}</CardTitle>
+              <CardTitle className="text-lg mb-1">{t('autoFixApp') || 'Auto Fix App'}</CardTitle>
               <CardDescription>{t('fixUiUxIssues') || 'Fix UI/UX issues'}</CardDescription>
             </div>
           </div>

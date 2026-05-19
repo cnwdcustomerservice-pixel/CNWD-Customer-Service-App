@@ -5,15 +5,18 @@ import './index.css';
 import { SettingsProvider } from './context/SettingsContext';
 import { DarkModeProvider } from './context/DarkModeContext';
 import { SubmissionsProvider } from './context/SubmissionsContext';
+import { NotificationProvider } from './context/NotificationContext';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <SettingsProvider>
-      <DarkModeProvider>
-        <SubmissionsProvider>
-          <App />
-        </SubmissionsProvider>
-      </DarkModeProvider>
-    </SettingsProvider>
+    <NotificationProvider>
+      <SettingsProvider>
+        <DarkModeProvider>
+          <SubmissionsProvider>
+            <App />
+          </SubmissionsProvider>
+        </DarkModeProvider>
+      </SettingsProvider>
+    </NotificationProvider>
   </StrictMode>,
 );

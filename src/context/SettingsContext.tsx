@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { translations } from '../lib/i18n';
+import { useNotifications } from './NotificationContext';
 
 interface SettingsContextType {
   soundEnabled: boolean;
@@ -17,6 +18,7 @@ interface SettingsContextType {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { addNotification } = useNotifications();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [vibrationEnabled, setVibrationEnabled] = useState(true);
   const [language, setLanguage] = useState('en');
@@ -24,6 +26,16 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const t = (key: string) => {
     return translations[language][key] || key;
+  };
+
+  const setLanguageAndNotify = (lang: string) => {
+    setLanguage(lang);
+    addNotification("System language settings updated successfully.");
+  };
+
+  const setTimeFormatAndNotify = (format: '12' | '24') => {
+    setTimeFormat(format);
+    addNotification("Account time zone adjusted successfully.");
   };
 
   const toggleSound = () => setSoundEnabled(prev => !prev);
@@ -53,7 +65,7 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   };
 
   return (
-    <SettingsContext.Provider value={{ soundEnabled, vibrationEnabled, language, timeFormat, toggleSound, toggleVibration, setLanguage, setTimeFormat, playFeedback, t }}>
+    <SettingsContext.Provider value={{ soundEnabled, vibrationEnabled, language, timeFormat, toggleSound, toggleVibration, setLanguage: setLanguageAndNotify, setTimeFormat: setTimeFormatAndNotify, playFeedback, t }}>
       {children}
     </SettingsContext.Provider>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import emailjs from 'emailjs-com';
 import { base44 } from '@/api/base44Client';
 import { useSubmissions } from '../context/SubmissionsContext';
+import { useNotifications } from '../context/NotificationContext';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { FileText, ShieldCheck, WifiOff } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -16,6 +17,7 @@ export default function CustomerService() {
   const [submittedData, setSubmittedData] = useState<any>(null);
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const { addSubmission } = useSubmissions();
+  const { addNotification } = useNotifications();
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -81,6 +83,7 @@ export default function CustomerService() {
 
       await base44.entities.ServiceRequest.create(fullData);
       addSubmission(fullData);
+      addNotification("Your service request has been successfully recorded and is currently being processed.");
 
       // EmailJS logic
       await emailjs.send(
